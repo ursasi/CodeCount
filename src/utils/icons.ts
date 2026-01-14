@@ -133,7 +133,9 @@ const DEFAULT_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height=
 export function createIconHtml(language: string): string {
     const url = getIconUrl(language)
     if (url) {
-        return `<img src="${url}" alt="${language}" style="width:16px;height:16px;vertical-align:middle;margin-right:6px;" onerror="this.outerHTML='${DEFAULT_ICON}'">`
+        // 使用 data URI 编码 DEFAULT_ICON 避免引号冲突
+        const escapedIcon = DEFAULT_ICON.replace(/"/g, '&quot;')
+        return `<img src="${url}" alt="${language}" style="width:16px;height:16px;vertical-align:middle;margin-right:6px;" onerror="this.outerHTML=&quot;${escapedIcon}&quot;">`
     }
     return DEFAULT_ICON
 }

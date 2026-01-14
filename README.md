@@ -6,9 +6,11 @@
 
 <p align="center">🔢 Display code line statistics on GitHub repository pages.</p>
 
-[![Tampermonkey](https://img.shields.io/badge/Tampermonkey-Ready-green?logo=tampermonkey)](https://www.tampermonkey.net/)
-[![Greasy Fork](https://img.shields.io/badge/Greasy%20Fork-Install-red)](https://greasyfork.org/zh-CN/scripts/562596-codecount-github-%E4%BB%A3%E7%A0%81%E8%A1%8C%E6%95%B0%E7%BB%9F%E8%AE%A1)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue?logo=typescript)](https://www.typescriptlang.org/)
+<p align="center">
+  <a href="https://www.tampermonkey.net/"><img src="https://img.shields.io/badge/Tampermonkey-Ready-green?logo=tampermonkey" alt="Tampermonkey"></a>
+  <a href="https://greasyfork.org/zh-CN/scripts/562596-codecount-github-%E4%BB%A3%E7%A0%81%E8%A1%8C%E6%95%B0%E7%BB%9F%E8%AE%A1"><img src="https://img.shields.io/badge/Greasy%20Fork-Install-red" alt="Greasy Fork"></a>
+  <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-5.9-blue?logo=typescript" alt="TypeScript"></a>
+</p>
 
 [English](#-features) | [中文](#-功能特性)
 
