@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         CodeCount - GitHub 代码行数统计
 // @namespace    https://github.com/ursasi/CodeCount
-// @version      1.2.0
+// @version      1.2.1
 // @description  在 GitHub 仓库页面显示代码行数统计，支持估算和精确统计，带语言图标
 // @author       ursasi
 // @match        https://github.com/*
