@@ -1,0 +1,23 @@
+{
+    "manifest_version": 3,
+    "name": "GitHub Code Counter",
+    "version": "1.0.0",
+    "description": "统计 GitHub 仓库的代码行数，按语言分类展示",
+    "permissions": [],
+    "host_permissions": [
+        "https://api.github.com/*"
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "https://github.com/*"
+            ],
+            "js": [
+                "src/content/index.ts"
+            ]
+        }
+    ],
+    "icons": {
+        "128": "public/icon.svg"
+    }
+}
