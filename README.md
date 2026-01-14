@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="public/logo.png" alt="CodeCount" width="400">
+  <img src="public/logo.png" alt="CodeCount" width="100%">
 </p>
 
 <h1 align="center">CodeCount</h1>
