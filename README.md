@@ -10,7 +10,7 @@
 [![Greasy Fork](https://img.shields.io/badge/Greasy%20Fork-Install-red)](https://greasyfork.org/zh-CN/scripts/562596-codecount-github-%E4%BB%A3%E7%A0%81%E8%A1%8C%E6%95%B0%E7%BB%9F%E8%AE%A1)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue?logo=typescript)](https://www.typescriptlang.org/)
 
-[English](#features) | [中文](#功能特性)
+[English](#-features) | [中文](#-功能特性)
 
 ---
 
