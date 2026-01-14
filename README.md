@@ -1,6 +1,10 @@
-# CodeCount
+<p align="center">
+  <img src="public/icons/icon128.png" alt="CodeCount" width="128">
+</p>
 
-> 🔢 Display code line statistics on GitHub repository pages.
+<h1 align="center">CodeCount</h1>
+
+<p align="center">🔢 Display code line statistics on GitHub repository pages.</p>
 
 [![Tampermonkey](https://img.shields.io/badge/Tampermonkey-Ready-green?logo=tampermonkey)](https://www.tampermonkey.net/)
 [![Greasy Fork](https://img.shields.io/badge/Greasy%20Fork-Install-red)](https://greasyfork.org/zh-CN/scripts/562596-codecount-github-%E4%BB%A3%E7%A0%81%E8%A1%8C%E6%95%B0%E7%BB%9F%E8%AE%A1)
