@@ -3,7 +3,7 @@
 > 🔢 Display code line statistics on GitHub repository pages.
 
 [![Tampermonkey](https://img.shields.io/badge/Tampermonkey-Ready-green?logo=tampermonkey)](https://www.tampermonkey.net/)
-[![Greasy Fork](https://img.shields.io/badge/Greasy%20Fork-Install-red)](https://greasyfork.org/)
+[![Greasy Fork](https://img.shields.io/badge/Greasy%20Fork-Install-red)](https://greasyfork.org/zh-CN/scripts/562596-codecount-github-%E4%BB%A3%E7%A0%81%E8%A1%8C%E6%95%B0%E7%BB%9F%E8%AE%A1)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue?logo=typescript)](https://www.typescriptlang.org/)
 
 [English](#features) | [中文](#功能特性)
@@ -38,7 +38,7 @@ Plain Text       1,481
 ### Userscript (Recommended)
 
 1. Install [Tampermonkey](https://www.tampermonkey.net/) browser extension
-2. Click [here to install CodeCount](./codecount.user.js) or copy the script manually
+2. [Install CodeCount from Greasy Fork](https://greasyfork.org/zh-CN/scripts/562596-codecount-github-%E4%BB%A3%E7%A0%81%E8%A1%8C%E6%95%B0%E7%BB%9F%E8%AE%A1)
 3. Visit any GitHub repository and enjoy! ✨
 
 ### Chrome Extension (From Source)
@@ -109,7 +109,7 @@ Plain Text       1,481
 ### 油猴脚本（推荐）
 
 1. 安装 [Tampermonkey](https://www.tampermonkey.net/) 浏览器扩展
-2. [点击安装 CodeCount](./codecount.user.js) 或手动复制脚本
+2. [从 Greasy Fork 安装 CodeCount](https://greasyfork.org/zh-CN/scripts/562596-codecount-github-%E4%BB%A3%E7%A0%81%E8%A1%8C%E6%95%B0%E7%BB%9F%E8%AE%A1)
 3. 访问任意 GitHub 仓库即可使用 ✨
 
 ### Chrome 扩展（从源码构建）
