@@ -1,5 +1,6 @@
 import type { LanguageLines, CodeTabsLanguage } from '../types'
 import { formatNumber, getTotalLines, getPreciseTotal } from '../utils/line-counter'
+import { createIconHtml } from '../utils/icons'
 
 const CONTAINER_ID = 'github-code-counter'
 
@@ -11,14 +12,14 @@ export function createEstimatedUI(stats: LanguageLines[]): HTMLElement {
   const total = getTotalLines(stats)
 
   const langItems = stats.slice(0, 8).map(item => `
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-      <span>${item.language}</span>
+    <div class="gcc-lang-row">
+      <span class="gcc-lang-name">${createIconHtml(item.language)}${item.language}</span>
       <span style="color: #656d76;">~${formatNumber(item.lines)}</span>
     </div>
   `).join('')
 
   const moreText = stats.length > 8
-    ? `<div style="color: #656d76; font-size: 12px;">...还有 ${stats.length - 8} 种语言</div>`
+    ? `<div style="color: #656d76; font-size: 12px; margin-top: 4px;">...还有 ${stats.length - 8} 种语言</div>`
     : ''
 
   container.innerHTML = `
@@ -46,8 +47,8 @@ export function updateToPreciseUI(stats: CodeTabsLanguage[]): void {
 
   const langItems = filtered.slice(0, 8).map(item => `
     <div class="gcc-lang-row">
-      <span>${item.language}</span>
-      <div class="gcc-lang-details">
+      <span class="gcc-lang-name">${createIconHtml(item.language)}${item.language}</span>
+      <div class="gcc-lang-stats">
         <span class="gcc-code">${formatNumber(item.linesOfCode)}</span>
         <span class="gcc-meta">${formatNumber(item.comments)} 注释 · ${formatNumber(item.blanks)} 空行</span>
       </div>
@@ -55,7 +56,7 @@ export function updateToPreciseUI(stats: CodeTabsLanguage[]): void {
   `).join('')
 
   const moreText = filtered.length > 8
-    ? `<div style="color: #656d76; font-size: 12px;">...还有 ${filtered.length - 8} 种语言</div>`
+    ? `<div style="color: #656d76; font-size: 12px; margin-top: 4px;">...还有 ${filtered.length - 8} 种语言</div>`
     : ''
 
   container.innerHTML = `
@@ -141,7 +142,7 @@ function addStyles(): void {
   const style = document.createElement('style')
   style.id = 'gcc-styles'
   style.textContent = `
-    #${CONTAINER_ID} {
+    #github-code-counter {
       margin: 0 0 16px 0;
       padding: 16px;
       border: 1px solid var(--borderColor-default, #d0d7de);
@@ -149,71 +150,22 @@ function addStyles(): void {
       font-size: 14px;
       background: var(--bgColor-default, #fff);
     }
-    .gcc-header {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 8px;
-    }
-    .gcc-title {
-      font-weight: 600;
-    }
-    .gcc-badge {
-      font-size: 11px;
-      padding: 2px 6px;
-      border-radius: 10px;
-    }
-    .gcc-loading {
-      background: #ddf4ff;
-      color: #0969da;
-    }
-    .gcc-estimated {
-      background: #fff8c5;
-      color: #9a6700;
-    }
-    .gcc-precise {
-      background: #dafbe1;
-      color: #1a7f37;
-    }
-    .gcc-total {
-      font-size: 18px;
-      font-weight: 600;
-      margin-bottom: 12px;
-      color: #656d76;
-    }
-    .gcc-total-precise {
-      margin-bottom: 12px;
-    }
-    .gcc-total-main {
-      font-size: 18px;
-      font-weight: 600;
-    }
-    .gcc-total-meta {
-      font-size: 12px;
-      color: #656d76;
-      margin-top: 2px;
-    }
-    .gcc-list {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-    .gcc-lang-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-    }
-    .gcc-lang-details {
-      text-align: right;
-    }
-    .gcc-code {
-      font-weight: 500;
-    }
-    .gcc-meta {
-      display: block;
-      font-size: 11px;
-      color: #656d76;
-    }
+    .gcc-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+    .gcc-title { font-weight: 600; }
+    .gcc-badge { font-size: 11px; padding: 2px 6px; border-radius: 10px; }
+    .gcc-loading { background: #ddf4ff; color: #0969da; }
+    .gcc-estimated { background: #fff8c5; color: #9a6700; }
+    .gcc-precise { background: #dafbe1; color: #1a7f37; }
+    .gcc-total { font-size: 18px; font-weight: 600; margin-bottom: 12px; color: #656d76; }
+    .gcc-total-precise { margin-bottom: 12px; }
+    .gcc-total-main { font-size: 18px; font-weight: 600; }
+    .gcc-total-meta { font-size: 12px; color: #656d76; margin-top: 2px; }
+    .gcc-list { display: flex; flex-direction: column; gap: 8px; }
+    .gcc-lang-row { display: flex; justify-content: space-between; align-items: center; }
+    .gcc-lang-name { display: flex; align-items: center; }
+    .gcc-lang-stats { text-align: right; }
+    .gcc-code { font-weight: 500; }
+    .gcc-meta { display: block; font-size: 11px; color: #656d76; }
   `
   document.head.appendChild(style)
 }

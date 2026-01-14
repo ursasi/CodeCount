@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         CodeCount - GitHub 代码行数统计
 // @namespace    https://github.com/ursasi/CodeCount
-// @version      1.0.0
-// @description  在 GitHub 仓库页面显示代码行数统计，支持估算和精确统计
+// @version      1.1.0
+// @description  在 GitHub 仓库页面显示代码行数统计，支持估算和精确统计，带语言图标
 // @author       ursasi
 // @match        https://github.com/*
 // @icon         https://github.githubassets.com/favicons/favicon.svg
@@ -16,6 +16,81 @@
     'use strict';
 
     const CONTAINER_ID = 'github-code-counter';
+
+    // 语言图标映射 (使用 devicon CDN)
+    const LANG_ICONS = {
+        'JavaScript': 'javascript',
+        'TypeScript': 'typescript',
+        'Python': 'python',
+        'Java': 'java',
+        'Go': 'go',
+        'Rust': 'rust',
+        'C': 'c',
+        'C++': 'cplusplus',
+        'C#': 'csharp',
+        'Ruby': 'ruby',
+        'PHP': 'php',
+        'Swift': 'swift',
+        'Kotlin': 'kotlin',
+        'Scala': 'scala',
+        'Dart': 'dart',
+        'R': 'r',
+        'Lua': 'lua',
+        'Perl': 'perl',
+        'Haskell': 'haskell',
+        'Elixir': 'elixir',
+        'Clojure': 'clojure',
+        'Erlang': 'erlang',
+        'Julia': 'julia',
+        'HTML': 'html5',
+        'CSS': 'css3',
+        'SCSS': 'sass',
+        'Sass': 'sass',
+        'Less': 'less',
+        'Vue': 'vuejs',
+        'React': 'react',
+        'Svelte': 'svelte',
+        'Shell': 'bash',
+        'Bash': 'bash',
+        'PowerShell': 'powershell',
+        'Dockerfile': 'docker',
+        'Markdown': 'markdown',
+        'JSON': 'json',
+        'YAML': 'yaml',
+        'XML': 'xml',
+        'SQL': 'mysql',
+        'GraphQL': 'graphql',
+        'Vim Script': 'vim',
+        'Vim script': 'vim',
+        'Makefile': 'cmake',
+        'CMake': 'cmake',
+        'Gradle': 'gradle',
+        'Groovy': 'groovy',
+        'Objective-C': 'objectivec',
+        'Assembly': 'wasm',
+        'WebAssembly': 'wasm',
+        'TOML': 'tomcat',
+        'Nginx': 'nginx',
+        'Redis': 'redis',
+    };
+
+    // 获取语言图标 URL
+    function getIconUrl(language) {
+        const icon = LANG_ICONS[language];
+        if (icon) {
+            return `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${icon}/${icon}-original.svg`;
+        }
+        return null;
+    }
+
+    // 创建图标元素
+    function createIcon(language) {
+        const url = getIconUrl(language);
+        if (url) {
+            return `<img src="${url}" alt="${language}" style="width:16px;height:16px;vertical-align:middle;margin-right:6px;" onerror="this.style.display='none'">`;
+        }
+        return '<span style="display:inline-block;width:16px;margin-right:6px;"></span>';
+    }
 
     // 不同语言的平均每行字节数
     const BYTES_PER_LINE = {
@@ -101,8 +176,10 @@
             .gcc-total { font-size: 18px; font-weight: 600; margin-bottom: 12px; color: #656d76; }
             .gcc-total-main { font-size: 18px; font-weight: 600; }
             .gcc-total-meta { font-size: 12px; color: #656d76; margin-top: 2px; }
-            .gcc-list { display: flex; flex-direction: column; gap: 6px; }
-            .gcc-lang-row { display: flex; justify-content: space-between; }
+            .gcc-list { display: flex; flex-direction: column; gap: 8px; }
+            .gcc-lang-row { display: flex; justify-content: space-between; align-items: center; }
+            .gcc-lang-name { display: flex; align-items: center; }
+            .gcc-lang-stats { text-align: right; }
             .gcc-meta { display: block; font-size: 11px; color: #656d76; }
         `;
         document.head.appendChild(style);
@@ -118,11 +195,14 @@
         const container = document.createElement('div');
         container.id = CONTAINER_ID;
 
-        const langItems = stats.slice(0, 8).map(s =>
-            `<div class="gcc-lang-row"><span>${s.lang}</span><span style="color:#656d76">~${formatNumber(s.lines)}</span></div>`
-        ).join('');
+        const langItems = stats.slice(0, 8).map(s => `
+            <div class="gcc-lang-row">
+                <span class="gcc-lang-name">${createIcon(s.lang)}${s.lang}</span>
+                <span style="color:#656d76">~${formatNumber(s.lines)}</span>
+            </div>
+        `).join('');
 
-        const more = stats.length > 8 ? `<div style="color:#656d76;font-size:12px">...还有 ${stats.length - 8} 种语言</div>` : '';
+        const more = stats.length > 8 ? `<div style="color:#656d76;font-size:12px;margin-top:4px">...还有 ${stats.length - 8} 种语言</div>` : '';
 
         container.innerHTML = `
             <div class="gcc-header">
@@ -145,15 +225,15 @@
 
         const langItems = stats.slice(0, 8).map(s => `
             <div class="gcc-lang-row">
-                <span>${s.language}</span>
-                <div style="text-align:right">
+                <span class="gcc-lang-name">${createIcon(s.language)}${s.language}</span>
+                <div class="gcc-lang-stats">
                     <span style="font-weight:500">${formatNumber(s.linesOfCode)}</span>
                     <span class="gcc-meta">${formatNumber(s.comments)} 注释 · ${formatNumber(s.blanks)} 空行</span>
                 </div>
             </div>
         `).join('');
 
-        const more = stats.length > 8 ? `<div style="color:#656d76;font-size:12px">...还有 ${stats.length - 8} 种语言</div>` : '';
+        const more = stats.length > 8 ? `<div style="color:#656d76;font-size:12px;margin-top:4px">...还有 ${stats.length - 8} 种语言</div>` : '';
 
         container.innerHTML = `
             <div class="gcc-header">
@@ -161,12 +241,12 @@
                 <span class="gcc-badge gcc-precise">精确</span>
             </div>
             ${total ? `
-                <div>
+                <div style="margin-bottom:12px">
                     <div class="gcc-total-main">${formatNumber(total.linesOfCode)} 行代码</div>
                     <div class="gcc-total-meta">${formatNumber(total.comments)} 注释 · ${formatNumber(total.blanks)} 空行 · ${formatNumber(total.files)} 文件</div>
                 </div>
             ` : ''}
-            <div class="gcc-list" style="margin-top:12px">${langItems}${more}</div>
+            <div class="gcc-list">${langItems}${more}</div>
         `;
     }
 
