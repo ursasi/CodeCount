@@ -1,11 +1,12 @@
 {
     "manifest_version": 3,
-    "name": "GitHub Code Counter",
-    "version": "1.0.0",
-    "description": "统计 GitHub 仓库的代码行数，按语言分类展示",
+    "name": "CodeCount",
+    "version": "1.1.0",
+    "description": "统计 GitHub 仓库的代码行数，按语言分类展示，带语言图标",
     "permissions": [],
     "host_permissions": [
-        "https://api.github.com/*"
+        "https://api.github.com/*",
+        "https://api.codetabs.com/*"
     ],
     "content_scripts": [
         {
@@ -18,6 +19,8 @@
         }
     ],
     "icons": {
-        "128": "public/icon.svg"
+        "16": "public/icons/icon16.png",
+        "48": "public/icons/icon48.png",
+        "128": "public/icons/icon128.png"
     }
 }
