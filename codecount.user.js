@@ -60,7 +60,9 @@
     function createIcon(language) {
         const url = getIconUrl(language);
         if (url) {
-            return `<img src="${url}" alt="${language}" style="width:16px;height:16px;vertical-align:middle;margin-right:6px;" onerror="this.outerHTML=\`${DEFAULT_ICON}\`">`;
+            // 使用 data URI 作为 fallback，避免 onerror 中的引号转义问题
+            const fallbackSvg = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%23656d76" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>');
+            return `<img src="${url}" alt="${language}" style="width:16px;height:16px;vertical-align:middle;margin-right:6px;" onerror="this.src='${fallbackSvg}'">`;
         }
         return DEFAULT_ICON;
     }
@@ -85,12 +87,32 @@
         return num.toLocaleString();
     }
 
+    function safeParseJSON(text, apiName) {
+        try {
+            const data = JSON.parse(text);
+            return data;
+        } catch (e) {
+            console.warn(`[CodeCount] ${apiName} 返回非 JSON 数据:`, text.substring(0, 100));
+            throw new Error(`${apiName}: 无效的 JSON 响应`);
+        }
+    }
+
     function fetchGitHubStats(repo) {
         return new Promise((resolve, reject) => {
             GM_xmlhttpRequest({
                 method: 'GET',
                 url: `https://api.github.com/repos/${repo.owner}/${repo.repo}/languages`,
-                onload: (res) => res.status === 200 ? resolve(JSON.parse(res.responseText)) : reject(new Error(`GitHub API: ${res.status}`)),
+                onload: (res) => {
+                    if (res.status !== 200) {
+                        reject(new Error(`GitHub API: ${res.status}`));
+                        return;
+                    }
+                    try {
+                        resolve(safeParseJSON(res.responseText, 'GitHub API'));
+                    } catch (e) {
+                        reject(e);
+                    }
+                },
                 onerror: reject
             });
         });
@@ -101,7 +123,17 @@
             GM_xmlhttpRequest({
                 method: 'GET',
                 url: `https://api.codetabs.com/v1/loc?github=${repo.owner}/${repo.repo}`,
-                onload: (res) => res.status === 200 ? resolve(JSON.parse(res.responseText)) : reject(new Error(`CodeTabs API: ${res.status}`)),
+                onload: (res) => {
+                    if (res.status !== 200) {
+                        reject(new Error(`CodeTabs API: ${res.status}`));
+                        return;
+                    }
+                    try {
+                        resolve(safeParseJSON(res.responseText, 'CodeTabs API'));
+                    } catch (e) {
+                        reject(e);
+                    }
+                },
                 onerror: reject
             });
         });
