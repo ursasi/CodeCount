@@ -1,10 +1,14 @@
 # CodeCount
 
-> 🔢 A Chrome extension that displays code line statistics on GitHub repository pages.
+> 🔢 Display code line statistics on GitHub repository pages.
 
-[![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-green?logo=googlechrome)](https://github.com/ursasi/CodeCount)
+[![Tampermonkey](https://img.shields.io/badge/Tampermonkey-Ready-green?logo=tampermonkey)](https://www.tampermonkey.net/)
+[![Greasy Fork](https://img.shields.io/badge/Greasy%20Fork-Install-red)](https://greasyfork.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue?logo=typescript)](https://www.typescriptlang.org/)
-[![Manifest V3](https://img.shields.io/badge/Manifest-V3-orange)](https://developer.chrome.com/docs/extensions/mv3/)
+
+[English](#features) | [中文](#功能特性)
+
+---
 
 ## ✨ Features
 
@@ -31,27 +35,25 @@ Plain Text       1,481
 
 ## 🚀 Installation
 
-### From Source
+### Userscript (Recommended)
 
-1. Clone this repository
+1. Install [Tampermonkey](https://www.tampermonkey.net/) browser extension
+2. Click [here to install CodeCount](./codecount.user.js) or copy the script manually
+3. Visit any GitHub repository and enjoy! ✨
+
+### Chrome Extension (From Source)
+
+1. Clone and build
    ```bash
    git clone https://github.com/ursasi/CodeCount.git
    cd CodeCount
+   npm install && npm run build
    ```
 
-2. Install dependencies and build
-   ```bash
-   npm install
-   npm run build
-   ```
-
-3. Load in Chrome
+2. Load in Chrome
    - Open `chrome://extensions/`
    - Enable "Developer mode"
-   - Click "Load unpacked"
-   - Select the `dist` folder
-
-4. Visit any GitHub repository and see the magic! ✨
+   - Click "Load unpacked" → Select `dist` folder
 
 ## 🛠️ Tech Stack
 
@@ -59,54 +61,79 @@ Plain Text       1,481
 |------------|---------|
 | TypeScript | Type-safe development |
 | Vite + CRXJS | Fast builds & hot reload |
-| Manifest V3 | Modern Chrome extension standard |
 | GitHub API | Language byte statistics |
 | CodeTabs API | Precise line counting |
-
-## 📁 Project Structure
-
-```
-src/
-├── content/          # Content scripts (injected into GitHub)
-│   ├── index.ts      # Main entry point
-│   └── ui.ts         # UI components
-├── utils/            # Utility functions
-│   ├── github-api.ts # API calls
-│   └── line-counter.ts # Statistics processing
-└── types/            # TypeScript definitions
-```
-
-## 🔧 Development
-
-```bash
-# Install dependencies
-npm install
-
-# Development with hot reload
-npm run dev
-
-# Production build
-npm run build
-```
 
 ## 📊 How It Works
 
 1. **Fast Path**: Fetches language bytes from GitHub API → estimates lines (instant)
 2. **Precise Path**: Calls CodeTabs API → gets exact line/comment/blank counts (async)
 
-The extension shows estimated values first, then seamlessly updates to precise statistics when available.
-
 ## 🤝 Contributing
 
-Contributions are welcome! Feel free to:
-
-- 🐛 Report bugs
-- 💡 Suggest features
-- 🔧 Submit pull requests
+Contributions welcome! Feel free to report bugs, suggest features, or submit PRs.
 
 ## 📄 License
 
 MIT © [ursasi](https://github.com/ursasi)
+
+---
+
+# 中文说明
+
+## ✨ 功能特性
+
+- 📊 **即时估算** - 使用 GitHub API 立即显示估算行数
+- 🎯 **精确统计** - 异步加载精确的代码行、注释行、空行数量
+- 🌐 **多语言支持** - 按编程语言分类统计
+- 🎨 **原生风格** - 与 GitHub 界面无缝融合
+
+## 📸 效果预览
+
+访问任意 GitHub 仓库时，CodeCount 会显示：
+
+```
+📊 代码统计                    [精确]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+15,415 行代码
+769 注释 · 2,353 空行 · 150 文件
+
+Python          11,123
+Markdown         1,261
+Plain Text       1,481
+...
+```
+
+## 🚀 安装方式
+
+### 油猴脚本（推荐）
+
+1. 安装 [Tampermonkey](https://www.tampermonkey.net/) 浏览器扩展
+2. [点击安装 CodeCount](./codecount.user.js) 或手动复制脚本
+3. 访问任意 GitHub 仓库即可使用 ✨
+
+### Chrome 扩展（从源码构建）
+
+1. 克隆并构建
+   ```bash
+   git clone https://github.com/ursasi/CodeCount.git
+   cd CodeCount
+   npm install && npm run build
+   ```
+
+2. 加载到 Chrome
+   - 打开 `chrome://extensions/`
+   - 开启「开发者模式」
+   - 点击「加载已解压的扩展程序」→ 选择 `dist` 文件夹
+
+## 📊 工作原理
+
+1. **快速路径**：调用 GitHub API 获取语言字节数 → 估算行数（毫秒级）
+2. **精确路径**：调用 CodeTabs API → 获取精确的代码/注释/空行数（异步）
+
+## 🤝 参与贡献
+
+欢迎提交 Bug 报告、功能建议或 Pull Request！
 
 ---
 
