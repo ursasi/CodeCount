@@ -12,7 +12,9 @@
   <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-5.9-blue?logo=typescript" alt="TypeScript"></a>
 </p>
 
-[English](#-features) | [中文](#-功能特性)
+<p align="center">
+  <a href="#-features">English</a> | <a href="#-功能特性">中文</a>
+</p>
 
 ---
 
