@@ -107,18 +107,19 @@ const SIMPLE_ICONS: Record<string, string> = {
 
 /**
  * 获取语言图标 URL
+ * 使用 GitHub raw 地址，避免 jsdelivr 被 CSP 阻止
  */
 export function getIconUrl(language: string): string | null {
     // 先检查 devicon
     const deviconName = LANG_ICONS[language]
     if (deviconName) {
-        return `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${deviconName}/${deviconName}-original.svg`
+        return `https://raw.githubusercontent.com/devicons/devicon/master/icons/${deviconName}/${deviconName}-original.svg`
     }
 
     // 再检查 Simple Icons
     const simpleIconName = SIMPLE_ICONS[language]
     if (simpleIconName) {
-        return `https://cdn.simpleicons.org/${simpleIconName}`
+        return `https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/${simpleIconName}.svg`
     }
 
     return null
@@ -127,15 +128,16 @@ export function getIconUrl(language: string): string | null {
 /** 默认文件图标 (内联 SVG) */
 const DEFAULT_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:6px;color:#656d76;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>`
 
+/** Fallback 图标 data URI */
+const FALLBACK_ICON_URI = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%23656d76" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>')
+
 /**
  * 创建图标 HTML
  */
 export function createIconHtml(language: string): string {
     const url = getIconUrl(language)
     if (url) {
-        // 使用 data URI 编码 DEFAULT_ICON 避免引号冲突
-        const escapedIcon = DEFAULT_ICON.replace(/"/g, '&quot;')
-        return `<img src="${url}" alt="${language}" style="width:16px;height:16px;vertical-align:middle;margin-right:6px;" onerror="this.outerHTML=&quot;${escapedIcon}&quot;">`
+        return `<img src="${url}" alt="${language}" style="width:16px;height:16px;vertical-align:middle;margin-right:6px;" onerror="this.src='${FALLBACK_ICON_URI}'">`
     }
     return DEFAULT_ICON
 }

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         CodeCount - GitHub 代码行数统计
 // @namespace    https://github.com/ursasi/CodeCount
-// @version      1.2.1
+// @version      1.2.2
 // @description  在 GitHub 仓库页面显示代码行数统计，支持估算和精确统计，带语言图标
 // @author       ursasi
 // @match        https://github.com/*
@@ -51,9 +51,11 @@
 
     function getIconUrl(language) {
         const devicon = LANG_ICONS[language];
-        if (devicon) return `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${devicon}/${devicon}-original.svg`;
+        // 使用 GitHub raw 地址，避免 jsdelivr 被 CSP 阻止
+        if (devicon) return `https://raw.githubusercontent.com/devicons/devicon/master/icons/${devicon}/${devicon}-original.svg`;
+        // Simple Icons 也改用 GitHub raw
         const simple = SIMPLE_ICONS[language];
-        if (simple) return `https://cdn.simpleicons.org/${simple}`;
+        if (simple) return `https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/${simple}.svg`;
         return null;
     }
 
